@@ -1,6 +1,8 @@
 # JAVA
 this repository is only for my school homework & practical work in java oop.
-Voici le compte rendu de votre code Java pour l’exercice :
+
+
+Voici le compte rendu de votre code Java pour les exercices :
 
 ### Présentation du Code
 Le programme en Java permet de gérer un ensemble de notes d'étudiants, saisies au clavier, et de réaliser plusieurs opérations de traitement et d'affichage de ces données. 
