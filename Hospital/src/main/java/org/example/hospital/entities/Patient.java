@@ -11,7 +11,7 @@ import lombok.NoArgsConstructor;
 
 import java.util.Date;
 @Entity
-@Data @NoArgsConstructor @AllArgsConstructor @Builder
+@Data @Builder
 public class Patient {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -30,6 +30,13 @@ public class Patient {
     }
 
     public Patient() {}
+
+
+    public Long getId() { return id; }
+    public String getName() { return name; }
+    public Date getDate() { return date; }
+    public boolean isMalade() { return malade; }
+    public int getScore() { return score; }
 
 
 }
