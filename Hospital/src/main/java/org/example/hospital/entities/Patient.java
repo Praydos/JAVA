@@ -15,10 +15,21 @@ import java.util.Date;
 public class Patient {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private long id;
-    private Date name;
-    private int date;
+    private Long id;
+    private String name;
+    private Date date;
     private boolean malade;
     private int score;
+
+    public Patient(Long id,String name, Date date, boolean malade, int score) {
+        this.name = name;
+        this.date = date;
+        this.malade = malade;
+        this.score = score;
+        this.id = id;
+    }
+
+    public Patient() {}
+
 
 }
