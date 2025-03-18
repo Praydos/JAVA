@@ -7,6 +7,13 @@
 </head>
 <body>
 <h2>Liste Patien</h2>
+
+<form method="get" th:action="@{index}">
+  <label for="patient">Patient</label>
+  <input type="text" name="keyword" id="patient" th:value="${patient}">
+  <button type="submit" class="btn btn-info">Submit</button>
+</form>
+
 <table class = "table">
   <thead >
   <tr>
