@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Add Reservation</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+<body class="bg-light">
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-8 offset-md-2">
+            <div class="card shadow">
+                <div class="card-header bg-primary text-white">
+                    <h3 class="mb-0">Add New Reservation</h3>
+                </div>
+                <div class="card-body">
+                    <form th:action="@{/saveReservation}" th:object="${reservation}" method="post" class="needs-validation" novalidate>
+                        <div class="mb-3">
+                            <label for="reservationDate" class="form-label">Reservation Date:</label>
+                            <input type="datetime-local" class="form-control" id="reservationDate" th:field="*{reservationDate}" name="reservationDate"/>
+                            <div class="text-danger" th:if="${#fields.hasErrors('reservationDate')}" th:errors="*{reservationDate}"></div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="typeReservation" class="form-label">Type Reservation:</label>
+                            <input type="text" class="form-control" id="typeReservation" th:field="*{typeReservation}" name="typeReservation"/>
+                            <div class="text-danger" th:if="${#fields.hasErrors('typeReservation')}" th:errors="*{typeReservation}"></div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="reservationStatus" class="form-label">Reservation Status:</label>
+                            <input type="text" class="form-control" id="reservationStatus" th:field="*{reservationStatus}" name="reservationStatus"/>
+                            <div class="text-danger" th:if="${#fields.hasErrors('reservationStatus')}" th:errors="*{reservationStatus}"></div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label for="cout" class="form-label">Cost:</label>
+                            <input type="number" step="0.01" class="form-control" id="cout" th:field="*{cout}" name="cout"/>
+                            <div class="text-danger" th:if="${#fields.hasErrors('cout')}" th:errors="*{cout}"></div>
+                        </div>
+
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <button type="submit" class="btn btn-primary">Save</button>
+                            <a th:href="@{/indexReservation}" class="btn btn-secondary">Back to list</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Bootstrap Bundle with Popper -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+
+<!-- Form validation script -->
+<script>
+    // Example starter JavaScript for disabling form submissions if there are invalid fields
+    (function () {
+        'use strict'
+
+        // Fetch all the forms we want to apply custom Bootstrap validation styles to
+        var forms = document.querySelectorAll('.needs-validation')
+
+        // Loop over them and prevent submission
+        Array.prototype.slice.call(forms)
+            .forEach(function (form) {
+                form.addEventListener('submit', function (event) {
+                    if (!form.checkValidity()) {
+                        event.preventDefault()
+                        event.stopPropagation()
+                    }
+
+                    form.classList.add('was-validated')
+                }, false)
+            })
+    })()
+</script>
+</body>
+</html>

@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+
+<head>
+  <meta charset="UTF-8">
+  <title>Title</title>
+  <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/5.3.3/css/bootstrap.min.css" />
+</head>
+<body>
+
+<div class="container">
+  <div class="card">
+    <div class="card-header"> <h2>Patients</h2></div>
+    <div class="card-body">
+      <!-- search form -->
+      <form method="get" th:action="@{/index}">
+        <label>keyword</label>
+        <input type="text" name="keyword" class="form-control" th:value="${keyword}">
+        <button class="btn btn-primary">Search</button>
+      </form>
+      <!-- ****************************************************** -->
+
+      <table class="table">
+        <thead>
+        <tr>
+          <td>id</td>
+          <td>FName</td>
+          <td>LName</td>
+          <td>Score</td>
+          <td>Malade</td>
+          <td>Birth</td>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="p:${ListPatients}">
+          <td th:text="${p.id}"></td>
+          <td th:text="${p.firstName}"></td>
+          <td th:text="${p.lastName}"></td>
+          <td th:text="${p.score}"></td>
+          <td th:text="${p.malade}"></td>
+          <td th:text="${p.birthDate}"></td>
+          <td>
+            <a class="btn btn-danger" th:href="@{deletePatient(id=${p.id})}">Delete</a>
+          </td>
+        </tr>
+        </tbody>
+      </table>
+
+      <!-- ****************************************************** -->
+      <ul class="nav av-pills justify-content-center">
+        <li th:each="page,status:${pages}">
+          <!-- class css/ 2 requete foction/ 3text -->
+          <a th:class="${status.index==currentPage?'btn btn-info m-1':'btn btn-outline-info m-1'}"
+             th:href="@{/index(page=${status.index},keyword=${keyword})}"
+             th:text="${status.index}"></a>
+        </li>
+      </ul>
+
+    </div>
+  </div>
+</div>
+
+<a class="btn btn-danger" th:href="@{/new}">add</a>
+
+</body>
+</html>

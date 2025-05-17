@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+
+
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <link rel="stylesheet" type="text/css" href="/webjars/bootstrap/5.3.3/css/bootstrap.min.css" />
+</head>
+<body>
+
+<div class="container">
+    <div class="card">
+        <div class="card-header"> <h2>Reservations</h2></div>
+        <div class="card-body">
+            <!-- search form -->
+            <form method="get" th:action="@{/indexReservation}">
+                <label>keyword</label>
+                <input type="text" name="keyword" class="form-control" th:value="${keyword}">
+                <button class="btn btn-primary">Search</button>
+            </form>
+            <!-- ****************************************************** -->
+
+            <table class="table">
+                <thead>
+                <tr>
+                    <td>id</td>
+                    <td>reservationDate</td>
+                    <td>typeReservation</td>
+                    <td>reservationStatus</td>
+                    <td>cout</td>
+
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="p:${ListReservations}">
+                    <td th:text="${p.id}"></td>
+                    <td th:text="${p.reservationDate}"></td>
+                    <td th:text="${p.typeReservation}"></td>
+                    <td th:text="${p.reservationStatus}"></td>
+                    <td th:text="${p.cout}"></td>
+                    <td>
+                        <a class="btn btn-danger" th:href="@{deleteReservation(id=${p.id})}">Delete</a>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+            <!-- ****************************************************** -->
+            <ul class="nav av-pills justify-content-center">
+                <li th:each="page,status:${pages}">
+                    <!-- class css/ 2 requete foction/ 3text -->
+                    <a th:class="${status.index==currentPage?'btn btn-info m-1':'btn btn-outline-info m-1'}"
+                       th:href="@{/index(page=${status.index},keyword=${keyword})}"
+                       th:text="${status.index}"></a>
+                </li>
+            </ul>
+
+        </div>
+    </div>
+</div>
+
+<a class="btn btn-danger" th:href="@{/newReservation}">add Reservation</a>
+<a class="btn btn-danger" th:href="@{/index}">Enterprise</a>
+
+</body>
+</html>
