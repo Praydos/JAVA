@@ -1,0 +1,66 @@
+<div class="container">
+  <div class="card col-md-8 offset-md-2 mt-4 shadow-lg">
+    <div class="card-header bg-primary text-white">
+      <h5 class="mb-0">Create New Customer</h5>
+    </div>
+    <div class="card-body">
+      <form [formGroup]="newCustomerFormGroup" (ngSubmit)="handleSaveCustomer()">
+        <!-- Name Field -->
+        <div class="mb-4">
+          <label class="form-label fw-bold">Full Name</label>
+          <div class="input-group">
+            <span class="input-group-text">
+              <i class="bi bi-person-fill"></i>
+            </span>
+            <input type="text"
+                   formControlName="name"
+                   class="form-control"
+                   [ngClass]="{'is-invalid': newCustomerFormGroup.get('name')?.invalid &&
+                                            (newCustomerFormGroup.get('name')?.touched ||
+                                             newCustomerFormGroup.get('name')?.dirty)}"
+                   placeholder="Enter customer name">
+          </div>
+          <div *ngIf="newCustomerFormGroup.get('name')?.invalid &&
+                     (newCustomerFormGroup.get('name')?.touched ||
+                      newCustomerFormGroup.get('name')?.dirty)"
+               class="invalid-feedback">
+            Name is required
+          </div>
+        </div>
+
+        <!-- Email Field -->
+        <div class="mb-4">
+          <label class="form-label fw-bold">Email Address</label>
+          <div class="input-group">
+            <span class="input-group-text">
+              <i class="bi bi-envelope-fill"></i>
+            </span>
+            <input type="email"
+                   formControlName="email"
+                   class="form-control"
+                   [ngClass]="{'is-invalid': newCustomerFormGroup.get('email')?.invalid &&
+                                            (newCustomerFormGroup.get('email')?.touched ||
+                                             newCustomerFormGroup.get('email')?.dirty)}"
+                   placeholder="example@domain.com">
+          </div>
+          <div *ngIf="newCustomerFormGroup.get('email')?.invalid &&
+                     (newCustomerFormGroup.get('email')?.touched ||
+                      newCustomerFormGroup.get('email')?.dirty)"
+               class="invalid-feedback">
+            Valid email is required
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="d-grid">
+          <button type="submit"
+                  class="btn btn-primary btn-lg"
+                  [disabled]="!newCustomerFormGroup.valid">
+            <i class="bi bi-save-fill me-2"></i>
+            Save Customer
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

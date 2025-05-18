@@ -1,0 +1,60 @@
+<div class="container p-3">
+  <div class="card shadow-sm col-md-6 offset-md-3">
+    <div class="card-header bg-primary text-white">
+      <h5 class="mb-0">User Login</h5>
+    </div>
+    <div class="card-body">
+      <form [formGroup]="formLogin" (ngSubmit)="handelLogin()">
+        <!-- Username Input -->
+        <div class="mb-4">
+          <label class="form-label fw-bold">Username</label>
+          <div class="input-group">
+            <span class="input-group-text">
+              <i class="bi bi-person-fill"></i>
+            </span>
+            <input type="text"
+                   id="username"
+                   class="form-control"
+                   formControlName="username"
+                   [ngClass]="{'is-invalid': formLogin.get('username')?.invalid && formLogin.get('username')?.touched}"
+                   placeholder="Enter your username">
+          </div>
+          <div *ngIf="formLogin.get('username')?.invalid && formLogin.get('username')?.touched"
+               class="invalid-feedback">
+            Username is required
+          </div>
+        </div>
+
+        <!-- Password Input -->
+        <div class="mb-4">
+          <label class="form-label fw-bold">Password</label>
+          <div class="input-group">
+            <span class="input-group-text">
+              <i class="bi bi-lock-fill"></i>
+            </span>
+            <input type="password"
+                   id="password"
+                   class="form-control"
+                   formControlName="password"
+                   [ngClass]="{'is-invalid': formLogin.get('password')?.invalid && formLogin.get('password')?.touched}"
+                   placeholder="Enter your password">
+          </div>
+          <div *ngIf="formLogin.get('password')?.invalid && formLogin.get('password')?.touched"
+               class="invalid-feedback">
+            Password is required
+          </div>
+        </div>
+
+        <!-- Submit Button -->
+        <div class="d-grid">
+          <button type="submit"
+                  class="btn btn-primary btn-lg"
+                  [disabled]="!formLogin.valid">
+            <i class="bi bi-box-arrow-in-right me-2"></i>
+            Sign In
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
