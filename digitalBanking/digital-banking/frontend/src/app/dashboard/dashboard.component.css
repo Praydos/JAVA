@@ -1,0 +1,172 @@
+/* Add component styles here */ 
+
+.dashboard-container {
+  padding-bottom: 2rem;
+}
+
+.dashboard-title {
+  font-weight: 600;
+  color: #343a40;
+  font-size: 1.75rem;
+}
+
+/* Stat Cards */
+.stat-card {
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  height: 100%;
+  overflow: hidden;
+  background: white;
+  border: none;
+}
+
+.stat-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 8px 16px rgba(0, 0, 0, 0.12);
+}
+
+.stat-card-body {
+  padding: 1.5rem;
+  display: flex;
+  align-items: center;
+}
+
+.stat-icon {
+  background-color: rgba(13, 110, 253, 0.1);
+  color: #0d6efd;
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 1rem;
+  font-size: 1.5rem;
+}
+
+.customers-card .stat-icon {
+  background-color: rgba(13, 110, 253, 0.1);
+  color: #0d6efd;
+}
+
+.accounts-card .stat-icon {
+  background-color: rgba(40, 167, 69, 0.1);
+  color: #28a745;
+}
+
+.operations-card .stat-icon {
+  background-color: rgba(23, 162, 184, 0.1);
+  color: #17a2b8;
+}
+
+.activity-card .stat-icon {
+  background-color: rgba(255, 193, 7, 0.1);
+  color: #ffc107;
+}
+
+.stat-content {
+  flex: 1;
+}
+
+.stat-title {
+  font-size: 0.825rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 0.5rem;
+  color: #6c757d;
+}
+
+.stat-value {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #343a40;
+}
+
+/* Chart Cards */
+.chart-card {
+  border-radius: 0.75rem;
+  overflow: hidden;
+  border: none;
+  height: 100%;
+}
+
+.chart-card-header {
+  padding: 1.25rem 1.5rem;
+  background-color: white;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.chart-title {
+  font-weight: 600;
+  margin-bottom: 0;
+  color: #343a40;
+}
+
+.chart-card-body {
+  padding: 1.5rem;
+  background-color: white;
+}
+
+/* Activity Feed */
+.activity-list {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.activity-item {
+  display: flex;
+  align-items: center;
+}
+
+.activity-icon {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  margin-right: 1rem;
+}
+
+.activity-content {
+  flex: 1;
+}
+
+.activity-title {
+  font-weight: 600;
+  color: #343a40;
+  margin-bottom: 0.25rem;
+}
+
+.activity-subtitle {
+  font-size: 0.875rem;
+  color: #6c757d;
+}
+
+.activity-time {
+  font-size: 0.75rem;
+  color: #6c757d;
+  font-weight: 500;
+}
+
+/* Loading */
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  min-height: 300px;
+}
+
+.spinner {
+  margin-bottom: 1rem;
+}
+
+.loading-text {
+  color: #6c757d;
+  font-weight: 500;
+} 

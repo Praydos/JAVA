@@ -1,0 +1,401 @@
+<div class="container mt-4">
+  <!-- Customer Details Card -->
+  <div class="customer-card">
+    <div class="customer-card-header">
+      <h5 class="customer-card-title">Customer Details</h5>
+    </div>
+    <div class="customer-card-body">
+      <div class="customer-info">
+        <div class="customer-info-item" *ngIf="customerId">
+          <span class="customer-info-label">Customer ID</span>
+          <span class="customer-info-value">{{ customerId }}</span>
+        </div>
+        <ng-container *ngIf="customer">
+          <div class="customer-info-item">
+            <span class="customer-info-label">Name</span>
+            <span class="customer-info-value">{{ customer.name }}</span>
+          </div>
+          <div class="customer-info-item">
+            <span class="customer-info-label">Email</span>
+            <span class="customer-info-value">{{ customer.email }}</span>
+          </div>
+        </ng-container>
+      </div>
+      <div *ngIf="!customer" class="loading-state mt-3">
+        <div class="spinner-border text-primary spinner-border-sm" role="status">
+          <span class="visually-hidden">Loading...</span>
+        </div>
+        <span class="ms-2">Loading customer data...</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Success/Error Messages -->
+  <div *ngIf="successMessage" class="alert alert-success">
+    <i class="bi bi-check-circle-fill me-2"></i>
+    {{ successMessage }}
+  </div>
+  <div *ngIf="errorMessage" class="alert alert-danger">
+    <i class="bi bi-exclamation-triangle-fill me-2"></i>
+    {{ errorMessage }}
+  </div>
+
+  <!-- Add Account Buttons -->
+  <div class="account-actions">
+    <button class="btn btn-success account-action-btn" (click)="toggleCreateCurrentAccountForm()">
+      <i class="bi bi-plus-circle"></i> Add Current Account
+    </button>
+    <button class="btn btn-outline-success account-action-btn" (click)="toggleCreateSavingAccountForm()">
+      <i class="bi bi-plus-circle"></i> Add Saving Account
+    </button>
+  </div>
+
+  <!-- Create Current Account Form -->
+  <div *ngIf="showCreateCurrentAccountForm" class="form-card">
+    <div class="form-card-header">
+      <h5 class="form-card-title">New Current Account</h5>
+    </div>
+    <div class="form-card-body">
+      <form [formGroup]="currentAccountForm" (ngSubmit)="handleCreateCurrentAccount()">
+        <div class="mb-3">
+          <label for="currentInitialBalance" class="form-label">Initial Balance</label>
+          <div class="input-group">
+            <span class="input-group-text">
+              <i class="bi bi-cash"></i>
+            </span>
+            <input type="number" id="currentInitialBalance" formControlName="initialBalance" class="form-control" placeholder="Enter initial balance">
+            <span class="input-group-text">$</span>
+          </div>
+          <div *ngIf="currentAccountForm.get('initialBalance')?.invalid && currentAccountForm.get('initialBalance')?.touched" class="form-text text-danger mt-1">
+            <span *ngIf="currentAccountForm.get('initialBalance')?.errors?.['required']">Initial balance is required</span>
+            <span *ngIf="currentAccountForm.get('initialBalance')?.errors?.['min']">Initial balance must be positive</span>
+          </div>
+        </div>
+        <div class="mb-4">
+          <label for="overDraft" class="form-label">Overdraft</label>
+          <div class="input-group">
+            <span class="input-group-text">
+              <i class="bi bi-credit-card"></i>
+            </span>
+            <input type="number" id="overDraft" formControlName="overDraft" class="form-control" placeholder="Enter overdraft limit">
+            <span class="input-group-text">$</span>
+          </div>
+          <div *ngIf="currentAccountForm.get('overDraft')?.invalid && currentAccountForm.get('overDraft')?.touched" class="form-text text-danger mt-1">
+            <span *ngIf="currentAccountForm.get('overDraft')?.errors?.['required']">Overdraft is required</span>
+            <span *ngIf="currentAccountForm.get('overDraft')?.errors?.['min']">Overdraft must be positive</span>
+          </div>
+        </div>
+        <div class="d-flex gap-2">
+          <button type="submit" class="btn btn-outline-success" [disabled]="currentAccountForm.invalid">
+            <i class="bi bi-check-circle me-1"></i> Create Account
+          </button>
+          <button type="button" class="btn btn-outline-secondary" (click)="toggleCreateCurrentAccountForm()">
+            <i class="bi bi-x-circle me-1"></i> Cancel
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Create Saving Account Form -->
+  <div *ngIf="showCreateSavingAccountForm" class="form-card">
+    <div class="form-card-header">
+      <h5 class="form-card-title">New Saving Account</h5>
+    </div>
+    <div class="form-card-body">
+      <form [formGroup]="savingAccountForm" (ngSubmit)="handleCreateSavingAccount()">
+        <div class="mb-3">
+          <label for="savingInitialBalance" class="form-label">Initial Balance</label>
+          <div class="input-group">
+            <span class="input-group-text">
+              <i class="bi bi-cash"></i>
+            </span>
+            <input type="number" id="savingInitialBalance" formControlName="initialBalance" class="form-control" placeholder="Enter initial balance">
+            <span class="input-group-text">$</span>
+          </div>
+          <div *ngIf="savingAccountForm.get('initialBalance')?.invalid && savingAccountForm.get('initialBalance')?.touched" class="form-text text-danger mt-1">
+            <span *ngIf="savingAccountForm.get('initialBalance')?.errors?.['required']">Initial balance is required</span>
+            <span *ngIf="savingAccountForm.get('initialBalance')?.errors?.['min']">Initial balance must be positive</span>
+          </div>
+        </div>
+        <div class="mb-4">
+          <label for="interestRate" class="form-label">Interest Rate</label>
+          <div class="input-group">
+            <span class="input-group-text">
+              <i class="bi bi-percent"></i>
+            </span>
+            <input type="number" id="interestRate" formControlName="interestRate" class="form-control" placeholder="Enter interest rate">
+            <span class="input-group-text">%</span>
+          </div>
+          <div *ngIf="savingAccountForm.get('interestRate')?.invalid && savingAccountForm.get('interestRate')?.touched" class="form-text text-danger mt-1">
+            <span *ngIf="savingAccountForm.get('interestRate')?.errors?.['required']">Interest rate is required</span>
+            <span *ngIf="savingAccountForm.get('interestRate')?.errors?.['min']">Interest rate must be positive</span>
+          </div>
+        </div>
+        <div class="d-flex gap-2">
+          <button type="submit" class="btn btn-outline-success" [disabled]="savingAccountForm.invalid">
+            <i class="bi bi-check-circle me-1"></i> Create Account
+          </button>
+          <button type="button" class="btn btn-outline-secondary" (click)="toggleCreateSavingAccountForm()">
+            <i class="bi bi-x-circle me-1"></i> Cancel
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Accounts List -->
+  <div class="accounts-card">
+    <div class="accounts-card-header">
+      <h5 class="accounts-card-title">Bank Accounts</h5>
+    </div>
+    <div class="accounts-card-body">
+      <div *ngIf="accounts$ | async as accounts; else loadingAccounts">
+        <div *ngIf="accounts.length > 0; else noAccounts">
+          <div class="accounts-table-container">
+            <table class="table accounts-table">
+              <thead>
+                <tr>
+                  <th>Account ID</th>
+                  <th>Type</th>
+                  <th>Balance</th>
+                  <th>Status</th>
+                  <th>Created At</th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr *ngFor="let acc of accounts; let i = index">
+                  <td>{{ acc.id }}</td>
+                  <td>
+                    <span class="account-type-badge"
+                          [ngClass]="{'account-type-current': acc.type === 'CurrentBankAccountDTO',
+                                     'account-type-saving': acc.type === 'SavingBankAccountDTO'}">
+                      {{ acc.type === 'CurrentBankAccountDTO' ? 'Current' : (acc.type === 'SavingBankAccountDTO' ? 'Saving' : acc.type) }}
+                    </span>
+                  </td>
+                  <td>{{ acc.balance | currency:'EUR':'symbol' }}</td>
+                  <td>
+                    <span class="account-status-badge"
+                          [ngClass]="{'account-status-created': acc.status === 'CREATED',
+                                     'account-status-active': acc.status === 'ACTIVE',
+                                     'account-status-suspended': acc.status === 'SUSPENDED',
+                                     'account-status-blocked': acc.status === 'BLOCKED'}">
+                      {{ acc.status }}
+                    </span>
+                  </td>
+                  <td>{{ acc.createdAt | date:'medium' }}</td>
+                  <td>
+                    <div class="action-buttons">
+                      <button class="btn btn-sm btn-outline-primary me-1" title="View Details" (click)="viewAccountOperations(acc)">
+                        <i class="bi bi-eye"></i>
+                      </button>
+                      <button *ngIf="authService.roles.includes('ADMIN')" class="btn btn-sm btn-outline-success me-1" title="Credit" (click)="openCreditModal(acc)">
+                        <i class="bi bi-arrow-down-circle"></i>
+                      </button>
+                      <button *ngIf="authService.roles.includes('ADMIN')" class="btn btn-sm btn-outline-danger me-1" title="Debit" (click)="openDebitModal(acc)">
+                        <i class="bi bi-arrow-up-circle"></i>
+                      </button>
+                      <button *ngIf="authService.roles.includes('ADMIN')" class="btn btn-sm btn-outline-warning" title="Transfer" (click)="openTransferModal(acc)">
+                        <i class="bi bi-send"></i>
+                      </button>
+                    </div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <ng-template #noAccounts>
+          <div class="empty-state">
+            <div class="empty-state-icon">
+              <i class="bi bi-credit-card"></i>
+            </div>
+            <h4 class="empty-state-title">No Accounts Found</h4>
+            <p class="empty-state-description">
+              This customer doesn't have any bank accounts yet.
+              Use the buttons above to create a new account.
+            </p>
+          </div>
+        </ng-template>
+      </div>
+      <ng-template #loadingAccounts>
+        <div class="loading-state">
+          <div class="spinner-border text-primary" role="status">
+            <span class="visually-hidden">Loading...</span>
+          </div>
+          <p class="loading-state-description mt-3">Loading accounts...</p>
+        </div>
+      </ng-template>
+    </div>
+  </div>
+</div>
+
+<!-- Modals for Operations -->
+
+<!-- Credit Modal -->
+<div class="modal fade" id="creditModal" tabindex="-1" aria-labelledby="creditModalLabel" aria-hidden="true" [ngClass]="{'show d-block': showCreditModal}" (click)="closeCreditModal()">
+  <div class="modal-dialog modal-dialog-centered" (click)="$event.stopPropagation()">
+    <div class="modal-content">
+      <div class="modal-card-header">
+        <div class="d-flex justify-content-between align-items-center w-100">
+          <h5 class="modal-card-title" id="creditModalLabel">Credit Account: {{ selectedAccountForOperation?.id }}</h5>
+          <button type="button" class="btn-close" (click)="closeCreditModal()" aria-label="Close"></button>
+        </div>
+      </div>
+      <form [formGroup]="operationAmountForm" (ngSubmit)="handleCredit()">
+        <div class="modal-card-body">
+          <div class="mb-3">
+            <label for="creditAmount" class="form-label">Amount</label>
+            <div class="input-group">
+              <span class="input-group-text">
+                <i class="bi bi-cash"></i>
+              </span>
+              <input type="number" id="creditAmount" formControlName="amount" class="form-control" placeholder="Enter amount">
+              <span class="input-group-text">$</span>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="creditDescription" class="form-label">Description</label>
+            <div class="input-group">
+              <span class="input-group-text">
+                <i class="bi bi-chat-left-text"></i>
+              </span>
+              <input type="text" id="creditDescription" formControlName="description" class="form-control" placeholder="Enter description">
+            </div>
+          </div>
+          <div *ngIf="errorMessage" class="alert alert-danger mt-2">
+            <i class="bi bi-exclamation-triangle-fill me-2"></i>
+            {{ errorMessage }}
+          </div>
+        </div>
+        <div class="modal-card-footer">
+          <button type="button" class="btn btn-outline-secondary" (click)="closeCreditModal()">
+            <i class="bi bi-x-circle me-1"></i> Cancel
+          </button>
+          <button type="submit" class="btn btn-success" [disabled]="operationAmountForm.invalid">
+            <i class="bi bi-check-circle me-1"></i> Perform Credit
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Debit Modal -->
+<div class="modal fade" id="debitModal" tabindex="-1" aria-labelledby="debitModalLabel" aria-hidden="true" [ngClass]="{'show d-block': showDebitModal}" (click)="closeDebitModal()">
+  <div class="modal-dialog modal-dialog-centered" (click)="$event.stopPropagation()">
+    <div class="modal-content">
+      <div class="modal-card-header">
+        <div class="d-flex justify-content-between align-items-center w-100">
+          <h5 class="modal-card-title" id="debitModalLabel">Debit Account: {{ selectedAccountForOperation?.id }}</h5>
+          <button type="button" class="btn-close" (click)="closeDebitModal()" aria-label="Close"></button>
+        </div>
+      </div>
+      <form [formGroup]="operationAmountForm" (ngSubmit)="handleDebit()">
+        <div class="modal-card-body">
+          <div class="mb-3">
+            <label for="debitAmount" class="form-label">Amount</label>
+            <div class="input-group">
+              <span class="input-group-text">
+                <i class="bi bi-cash"></i>
+              </span>
+              <input type="number" id="debitAmount" formControlName="amount" class="form-control" placeholder="Enter amount">
+              <span class="input-group-text">$</span>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="debitDescription" class="form-label">Description</label>
+            <div class="input-group">
+              <span class="input-group-text">
+                <i class="bi bi-chat-left-text"></i>
+              </span>
+              <input type="text" id="debitDescription" formControlName="description" class="form-control" placeholder="Enter description">
+            </div>
+          </div>
+          <div *ngIf="errorMessage" class="alert alert-danger mt-2">
+            <i class="bi bi-exclamation-triangle-fill me-2"></i>
+            {{ errorMessage }}
+          </div>
+        </div>
+        <div class="modal-card-footer">
+          <button type="button" class="btn btn-outline-secondary" (click)="closeDebitModal()">
+            <i class="bi bi-x-circle me-1"></i> Cancel
+          </button>
+          <button type="submit" class="btn btn-danger" [disabled]="operationAmountForm.invalid">
+            <i class="bi bi-check-circle me-1"></i> Perform Debit
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Transfer Modal -->
+<div class="modal fade" id="transferModal" tabindex="-1" aria-labelledby="transferModalLabel" aria-hidden="true" [ngClass]="{'show d-block': showTransferModal}" (click)="closeTransferModal()">
+  <div class="modal-dialog modal-dialog-centered" (click)="$event.stopPropagation()">
+    <div class="modal-content">
+      <div class="modal-card-header">
+        <div class="d-flex justify-content-between align-items-center w-100">
+          <h5 class="modal-card-title" id="transferModalLabel">Transfer from Account: {{ selectedAccountForOperation?.id }}</h5>
+          <button type="button" class="btn-close" (click)="closeTransferModal()" aria-label="Close"></button>
+        </div>
+      </div>
+      <form [formGroup]="transferForm" (ngSubmit)="handleTransfer()">
+        <div class="modal-card-body">
+          <div class="mb-3">
+            <label for="transferAmount" class="form-label">Amount</label>
+            <div class="input-group">
+              <span class="input-group-text">
+                <i class="bi bi-cash"></i>
+              </span>
+              <input type="number" id="transferAmount" formControlName="amount" class="form-control" placeholder="Enter amount">
+              <span class="input-group-text">$</span>
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="accountDestination" class="form-label">Destination Account ID</label>
+            <div class="input-group">
+              <span class="input-group-text">
+                <i class="bi bi-credit-card-2-front"></i>
+              </span>
+              <input type="text" id="accountDestination" formControlName="accountDestination" class="form-control" placeholder="Enter destination account ID">
+            </div>
+          </div>
+          <div class="mb-3">
+            <label for="transferDescription" class="form-label">Description</label>
+            <div class="input-group">
+              <span class="input-group-text">
+                <i class="bi bi-chat-left-text"></i>
+              </span>
+              <input type="text" id="transferDescription" formControlName="description" class="form-control" placeholder="Enter description">
+            </div>
+          </div>
+          <div *ngIf="errorMessage" class="alert alert-danger mt-2">
+            <i class="bi bi-exclamation-triangle-fill me-2"></i>
+            {{ errorMessage }}
+          </div>
+        </div>
+        <div class="modal-card-footer">
+          <button type="button" class="btn btn-outline-secondary" (click)="closeTransferModal()">
+            <i class="bi bi-x-circle me-1"></i> Cancel
+          </button>
+          <button type="submit" class="btn btn-warning" [disabled]="transferForm.invalid">
+            <i class="bi bi-check-circle me-1"></i> Perform Transfer
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Backdrop for Modals -->
+<div class="modal-backdrop fade" [ngClass]="{'show': showCreditModal || showDebitModal || showTransferModal}" style="display: none;" [style.display]="(showCreditModal || showDebitModal || showTransferModal) ? 'block' : 'none'"></div>
+
+
+
+
+
+
+
+

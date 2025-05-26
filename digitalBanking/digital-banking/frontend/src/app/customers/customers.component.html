@@ -1,0 +1,164 @@
+<div class="container mt-4">
+  <div class="customers-card card border-success shadow-lg">
+    <div class="customers-card-header card-header bg-success bg-opacity-10 border-success py-3">
+      <div class="d-flex justify-content-between align-items-center">
+        <div *ngIf="authService.roles.includes('ADMIN')">
+          <h2 class="customers-title mb-0 text-success fw-bold">
+            <i class="bi bi-people-fill me-2"></i>Manage Customers
+          </h2>
+          <p class="customers-subtitle text-muted mb-0 mt-1">
+            Search, view and manage all customer accounts
+          </p>
+        </div>
+        <div *ngIf="!authService.roles.includes('ADMIN')">
+          <h2 class="customers-title mb-0 text-success fw-bold">
+            <i class="bi bi-people-fill me-2"></i>Customers
+          </h2>
+          <p class="customers-subtitle text-muted mb-0 mt-1">
+            Search, view customer accounts
+          </p>
+        </div>
+        <button
+          *ngIf="authService.roles.includes('ADMIN')"
+          class="btn btn-success px-4 py-2 shadow-sm"
+          (click)="router.navigateByUrl('/admin/new-customer')"
+        >
+          <i class="bi bi-plus-circle me-1"></i> New Customer
+        </button>
+      </div>
+    </div>
+    <div class="customers-card-body card-body p-4">
+      <div *ngIf="searchFormGroup" class="search-container mb-4">
+        <form
+          [formGroup]="searchFormGroup"
+          (ngSubmit)="handleSearchCustomers()"
+        >
+          <div class="input-group search-input-group shadow-sm">
+            <span class="input-group-text search-icon bg-success bg-opacity-10 border-success text-success">
+              <i class="bi bi-search"></i>
+            </span>
+            <input
+              type="text"
+              formControlName="keyword"
+              class="form-control search-input border-success py-2"
+              placeholder="Search customers by name or email..."
+              (keyup.enter)="handleSearchCustomers()"
+            />
+            <button class="btn btn-success search-button px-4" type="submit">
+              Search
+            </button>
+          </div>
+        </form>
+      </div>
+
+      <ng-container
+        *ngIf="customers | async as listCustomers; else failureOrLoading"
+      >
+        <div *ngIf="listCustomers.length > 0; else noCustomers">
+          <div class="table-responsive customers-table-container rounded-3 shadow-sm">
+            <table class="table customers-table table-hover align-middle">
+              <thead class="bg-success bg-opacity-10">
+              <tr>
+                <th class="text-muted">ID</th>
+                <th class="text-muted">Name</th>
+                <th class="text-muted">Email</th>
+                <th *ngIf="authService.roles.includes('ADMIN')" class="text-muted">Actions</th>
+              </tr>
+              </thead>
+              <tbody>
+              <tr *ngFor="let c of listCustomers">
+                <td class="customer-id fw-medium">{{ c.id }}</td>
+                <td class="customer-name">{{ c.name }}</td>
+                <td class="customer-email">{{ c.email }}</td>
+                <td
+                  *ngIf="authService.roles.includes('ADMIN')"
+                  class="customer-actions"
+                >
+                  <div class="action-buttons d-flex gap-2">
+                    <button
+                      (click)="handleCustomerAccounts(c)"
+                      class="btn btn-sm btn-outline-success"
+                      title="View Accounts"
+                    >
+                      <i class="bi bi-credit-card"></i>
+                    </button>
+                    <button
+                      (click)="handleEditCustomer(c)"
+                      class="btn btn-sm btn-outline-primary"
+                      title="Edit Customer"
+                    >
+                      <i class="bi bi-pencil-square"></i>
+                    </button>
+                    <button
+                      (click)="handleDeleteCustomer(c)"
+                      class="btn btn-sm btn-outline-danger"
+                      title="Delete Customer"
+                    >
+                      <i class="bi bi-trash"></i>
+                    </button>
+                  </div>
+                </td>
+              </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+        <ng-template #noCustomers>
+          <div class="empty-state text-center py-5 text-muted">
+            <div class="empty-state-icon fs-1 text-success">
+              <i class="bi bi-people"></i>
+            </div>
+            <h4 class="empty-state-title h5 mt-3 fw-medium">No Customers Found</h4>
+            <p class="empty-state-description mb-4">
+              Try searching with a different keyword or create a new customer.
+            </p>
+            <button
+              *ngIf="authService.roles.includes('ADMIN')"
+              class="btn btn-success"
+              (click)="router.navigateByUrl('/admin/new-customer')"
+            >
+              <i class="bi bi-plus-circle me-1"></i> Add New Customer
+            </button>
+          </div>
+        </ng-template>
+      </ng-container>
+
+      <ng-template #failureOrLoading>
+        <ng-container *ngIf="errorMessage; else loading">
+          <div class="error-container alert alert-danger d-flex align-items-center shadow-sm">
+            <div class="error-icon me-3 fs-4">
+              <i class="bi bi-exclamation-triangle"></i>
+            </div>
+            <div>
+              <h4 class="error-title h5 mb-1">An Error Occurred</h4>
+              <p class="error-message mb-0">{{ errorMessage }}</p>
+            </div>
+          </div>
+        </ng-container>
+        <ng-template #loading>
+          <div class="loading-container d-flex flex-column align-items-center py-4 text-success">
+            <div class="spinner-border" role="status">
+              <span class="visually-hidden">Loading...</span>
+            </div>
+            <p class="loading-text mt-2 fw-medium">Loading customers...</p>
+          </div>
+        </ng-template>
+      </ng-template>
+    </div>
+  </div>
+</div>
+
+<style>
+  .customers-card {
+    border-radius: 0.75rem;
+  }
+
+  .customers-table tbody tr:hover {
+    background-color: rgba(25, 135, 84, 0.03);
+  }
+
+  .btn-outline-success:hover {
+    background-color: var(--bs-success);
+    color: white !important;
+  }
+</style>

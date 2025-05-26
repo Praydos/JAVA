@@ -1,0 +1,434 @@
+.customer-card {
+  border: 1px solid #198754;
+  border-radius: 0.75rem;
+  box-shadow: 0 0.5rem 1rem rgba(25, 135, 84, 0.15);
+
+}
+
+.customer-card-header {
+  background-color: #198754;
+  padding: 1rem 1.5rem;
+  border-radius: 0.75rem 0.75rem 0 0;
+}
+
+.customer-card-title {
+  color: white;
+  margin: 0;
+  font-weight: 600;
+}
+
+.customer-card-body {
+  padding: 1.5rem;
+}
+
+.customer-info {
+  display: grid;
+  gap: 1rem;
+  margin-bottom: 0;
+}
+
+.customer-info-item {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1rem;
+  background-color: rgba(25, 135, 84, 0.05);
+  border-radius: 0.5rem;
+}
+
+
+.customer-info-label {
+  display: block;
+  font-size: 0.825rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+  margin-bottom: 0.5rem;
+  color: #6c757d;
+}
+
+
+.customer-info-value {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: #343a40;
+}
+
+/* Account actions */
+.account-actions {
+  background-color: #f8f9fa;
+  border-radius: 0.75rem;
+  padding: 1.25rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  margin-bottom: 1.5rem;
+}
+
+.account-action-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  border-radius: 0.5rem;
+  font-weight: 500;
+  padding: 0.6rem 1.25rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.05);
+  transition: all 0.2s ease;
+}
+
+.account-action-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+.account-action-btn i {
+  font-size: 1.1rem;
+}
+
+/* Form card */
+.form-card {
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  background-color: white;
+
+  border: none;
+  overflow: hidden;
+  margin-bottom: 1.5rem;
+}
+
+.form-card-header {
+  background-color: #198754;
+
+  padding: 1.25rem 1.5rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.form-card-title {
+  font-weight: 600;
+  margin-bottom: 0;
+
+  font-size: 1.25rem;
+  color: white;
+}
+
+.form-card-body {
+  padding: 1.5rem;
+}
+
+/* Accounts table */
+.accounts-card {
+  border-radius: 0.75rem;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  background-color: white;
+  border: none;
+  overflow: hidden;
+}
+
+.accounts-card-header {
+  background: #198754;
+  color: white;
+  padding: 1.25rem 1.5rem;
+  border: none;
+}
+
+.accounts-card-title {
+  margin-bottom: 0;
+  font-weight: 600;
+  font-size: 1.25rem;
+}
+
+.accounts-card-body {
+  padding: 1.5rem;
+}
+
+.accounts-table-container {
+  border-radius: 0.5rem;
+  overflow: visible;
+  position: relative;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.accounts-table {
+  margin-bottom: 0;
+  position: relative;
+}
+
+.accounts-table thead {
+  background-color: #f8f9fa;
+}
+
+.accounts-table thead th {
+  padding: 0.75rem 1rem;
+  font-weight: 600;
+  color: #495057;
+  border-bottom: 2px solid #e9ecef;
+  font-size: 0.875rem;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
+}
+
+.accounts-table tbody tr {
+  transition: background-color 0.15s ease;
+}
+
+.accounts-table tbody tr:hover {
+  background-color: #f8f9fa;
+}
+
+.accounts-table td {
+  padding: 0.75rem 1rem;
+  vertical-align: middle;
+  border-color: #e9ecef;
+  position: relative;
+}
+
+.account-type-badge {
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.35em 0.75em;
+  border-radius: 0.25rem;
+  text-transform: uppercase;
+}
+
+.account-type-current {
+  background-color: rgba(13, 110, 253, 0.1);
+  color: #0d6efd;
+}
+
+.account-type-saving {
+  background-color: rgba(40, 167, 69, 0.1);
+  color: #28a745;
+}
+
+.account-status-badge {
+  font-size: 0.75rem;
+  font-weight: 600;
+  padding: 0.35em 0.75em;
+  border-radius: 0.25rem;
+}
+
+.account-status-created, .account-status-active {
+  background-color: rgba(40, 167, 69, 0.1);
+  color: #28a745;
+}
+
+.account-status-suspended {
+  background-color: rgba(255, 193, 7, 0.1);
+  color: #ffc107;
+}
+
+.account-status-blocked {
+  background-color: rgba(220, 53, 69, 0.1);
+  color: #dc3545;
+}
+
+.account-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.account-action-icon {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 2rem;
+  height: 2rem;
+  border-radius: 0.25rem;
+  transition: all 0.2s ease;
+}
+
+.action-view {
+  color: #0d6efd;
+  background-color: rgba(13, 110, 253, 0.1);
+}
+
+.action-credit {
+  color: #28a745;
+  background-color: rgba(40, 167, 69, 0.1);
+}
+
+.action-debit {
+  color: #dc3545;
+  background-color: rgba(220, 53, 69, 0.1);
+}
+
+.action-transfer {
+  color: #ffc107;
+  background-color: rgba(255, 193, 7, 0.1);
+}
+
+/* Modal styles */
+.modal-card-header {
+  background-color: #f8f9fa;
+  padding: 1rem 1.5rem;
+  border-bottom: 1px solid #dee2e6;
+}
+
+.modal-card-title {
+  font-weight: 600;
+  margin-bottom: 0;
+  color: #343a40;
+}
+
+.modal-card-body {
+  padding: 1.5rem;
+}
+
+.modal-card-footer {
+  background-color: #f8f9fa;
+  border-top: 1px solid rgba(0, 0, 0, 0.05);
+  padding: 1.25rem 1.5rem;
+  display: flex;
+  justify-content: flex-end;
+  gap: 0.75rem;
+}
+
+/* Empty and loading states */
+.empty-state, .loading-state {
+  text-align: center;
+  padding: 3rem 1rem;
+}
+
+.empty-state-icon, .loading-state-icon {
+  font-size: 3rem;
+  color: #dee2e6;
+  margin-bottom: 1rem;
+}
+
+.empty-state-title, .loading-state-title {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: #343a40;
+}
+
+.empty-state-description, .loading-state-description {
+  color: #6c757d;
+  max-width: 400px;
+  margin: 0 auto 1.5rem;
+}
+
+.account-actions-dropdown {
+  position: static;
+}
+
+/* Completely new approach for dropdown positioning */
+.action-dropdown-menu {
+  position: fixed !important;
+  z-index: 9999 !important;
+  min-width: 200px;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
+  border-radius: 0.5rem;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  background-color: white;
+  padding: 0.5rem 0;
+  max-width: 250px;
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+/* Fix the table cell that contains the dropdown button */
+.action-cell {
+  position: static !important;
+  min-width: 60px;
+  text-align: center;
+}
+
+/* Animation for dropdown appearance */
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+/* Fix for modal backdrop */
+.modal-backdrop.show {
+  opacity: 0.5;
+  z-index: 1040;
+}
+
+/* Action button in table */
+.btn-three-dots {
+  padding: 0.2rem 0.45rem;
+  border-radius: 0.25rem;
+  transition: background-color 0.2s;
+  font-size: 1rem;
+  background-color: transparent;
+  border-color: transparent;
+}
+
+.btn-three-dots:hover {
+  background-color: #f0f0f0;
+}
+
+/* Remove dropdown arrow from three-dots button */
+.dropdown-toggle.btn-three-dots::after {
+  display: none;
+}
+
+/* Fix dropdown menu to ensure proper positioning on screens */
+.dropdown-menu {
+  position: absolute;
+  z-index: 1050;
+  min-width: 180px;
+  box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15);
+  border-radius: 0.5rem;
+  border: 1px solid rgba(0, 0, 0, 0.1);
+  padding: 0.5rem 0;
+}
+
+.account-actions-dropdown .dropdown-item {
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  font-size: 0.875rem;
+}
+
+.account-actions-dropdown .dropdown-item:hover {
+  background-color: #f8f9fa;
+}
+
+.account-actions-dropdown .dropdown-toggle::after {
+  display: none;
+}
+
+.account-actions-dropdown .dropdown-toggle {
+  padding: 0.25rem 0.5rem;
+}
+
+/* Action buttons in table */
+.action-buttons {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.25rem;
+  justify-content: center;
+}
+
+.action-buttons .btn {
+  padding: 0.25rem 0.5rem;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+}
+
+.action-buttons .btn i {
+  font-size: 0.875rem;
+}
+
+.action-buttons .btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.1);
+}
+
+/* Responsive styling for action buttons */
+@media (max-width: 768px) {
+  .action-buttons {
+    flex-direction: column;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .action-buttons .btn {
+    width: 2rem;
+    height: 2rem;
+    padding: 0.25rem;
+  }
+}

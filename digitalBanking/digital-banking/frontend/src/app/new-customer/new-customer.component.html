@@ -1,0 +1,99 @@
+<div class="container mt-4">
+  <div class="card border-success shadow-lg">
+    <div class="card-header bg-success bg-opacity-10 border-success py-3">
+      <h2 class="card-title mb-0 text-success fw-bold">
+        <i class="bi bi-person-plus me-2"></i>{{ pageTitle }}
+      </h2>
+    </div>
+    <div class="card-body p-4">
+      <form [formGroup]="newCustomerFormGroup" (ngSubmit)="handleSaveCustomer()">
+        <!-- Name Field -->
+        <div class="mb-4">
+          <label for="name" class="form-label text-muted fw-medium">
+            <i class="bi bi-person-badge me-2 text-success"></i>Full Name
+          </label>
+          <div class="input-group">
+            <span class="input-group-text bg-success bg-opacity-10 border-success text-success">
+              <i class="bi bi-card-heading"></i>
+            </span>
+            <input id="name"
+                   type="text"
+                   formControlName="name"
+                   class="form-control border-success py-2"
+                   [ngClass]="{'is-invalid': newCustomerFormGroup.get('name')?.touched && newCustomerFormGroup.get('name')?.invalid}">
+          </div>
+          <div *ngIf="newCustomerFormGroup.get('name')?.touched && newCustomerFormGroup.get('name')?.invalid"
+               class="invalid-feedback d-flex align-items-center mt-2">
+            <i class="bi bi-info-circle me-2"></i>
+            <div>
+              <div *ngIf="newCustomerFormGroup.get('name')?.errors?.['required']">Name is required</div>
+              <div *ngIf="newCustomerFormGroup.get('name')?.errors?.['minlength']">Minimum 4 characters required</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Email Field -->
+        <div class="mb-4">
+          <label for="email" class="form-label text-muted fw-medium">
+            <i class="bi bi-envelope me-2 text-success"></i>Email Address
+          </label>
+          <div class="input-group">
+            <span class="input-group-text bg-success bg-opacity-10 border-success text-success">
+              <i class="bi bi-at"></i>
+            </span>
+            <input id="email"
+                   type="email"
+                   formControlName="email"
+                   class="form-control border-success py-2"
+                   [ngClass]="{'is-invalid': newCustomerFormGroup.get('email')?.touched && newCustomerFormGroup.get('email')?.invalid}">
+          </div>
+          <div *ngIf="newCustomerFormGroup.get('email')?.touched && newCustomerFormGroup.get('email')?.invalid"
+               class="invalid-feedback d-flex align-items-center mt-2">
+            <i class="bi bi-info-circle me-2"></i>
+            <div>
+              <div *ngIf="newCustomerFormGroup.get('email')?.errors?.['required']">Email is required</div>
+              <div *ngIf="newCustomerFormGroup.get('email')?.errors?.['email']">Valid email required</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Form Actions -->
+        <div class="d-flex gap-3 mt-4 pt-2">
+          <button type="submit"
+                  class="btn btn-success px-4 py-2 shadow-sm fw-medium flex-grow-1"
+                  [disabled]="newCustomerFormGroup.invalid">
+            <i class="bi bi-check-circle me-2"></i>
+            {{ customerId ? 'Update Customer' : 'Save Customer' }}
+          </button>
+          <button type="button"
+                  class="btn btn-outline-secondary px-4 py-2 shadow-sm fw-medium"
+                  (click)="router.navigateByUrl('/admin/customers')">
+            <i class="bi bi-x-circle me-2"></i> Cancel
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Minimal Custom CSS -->
+<style>
+  .card {
+    border-width: 2px;
+    border-radius: 1rem;
+  }
+
+  .btn-success {
+    transition: all 0.2s ease;
+  }
+
+  .btn-success:hover {
+    transform: translateY(-1px);
+    box-shadow: 0 4px 12px rgba(25, 135, 84, 0.3);
+  }
+
+  .form-control:focus {
+    border-color: #198754;
+    box-shadow: 0 0 0 0.25rem rgba(25, 135, 84, 0.25);
+  }
+</style>

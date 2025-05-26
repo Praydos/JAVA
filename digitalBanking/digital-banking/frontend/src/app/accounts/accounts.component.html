@@ -1,0 +1,239 @@
+<div class="container mt-4">
+  <div class="row g-4">
+    <!-- Search Column -->
+    <div class="col-lg-6">
+      <div class="card border-success shadow-lg">
+        <div class="card-header bg-success bg-opacity-10 border-success py-3">
+          <h4 class="card-title mb-0 fw-bold text-success">
+            <i class="bi bi-search me-2"></i>Account Search
+          </h4>
+        </div>
+        <div class="card-body">
+          <form [formGroup]="accountFormGroup" (ngSubmit)="handleSearchAccount()">
+            <div class="input-group mb-4 shadow-sm">
+              <span class="input-group-text bg-success bg-opacity-10 border-success text-success">
+                <i class="bi bi-credit-card"></i>
+              </span>
+              <input type="text"
+                     formControlName="accountId"
+                     class="form-control border-success"
+                     placeholder="Enter account ID...">
+              <button class="btn btn-success px-4" type="submit">
+                <i class="bi bi-search me-1"></i> Search
+              </button>
+            </div>
+          </form>
+
+          <ng-template #errorTemplate>
+            <div class="alert alert-danger d-flex align-items-center shadow-sm" role="alert" *ngIf="errorMessage; else loading">
+              <i class="bi bi-exclamation-triangle fs-4 me-3"></i>
+              <div>
+                <h5 class="alert-heading mb-1">Error</h5>
+                <p class="mb-0">{{errorMessage}}</p>
+              </div>
+            </div>
+            <ng-template #loading>
+              <div class="d-flex flex-column align-items-center py-4 text-success">
+                <div class="spinner-border text-success" role="status">
+                  <span class="visually-hidden">Loading...</span>
+                </div>
+                <p class="mt-2 mb-0 fw-medium">Loading account details...</p>
+              </div>
+            </ng-template>
+          </ng-template>
+
+          <ng-container *ngIf="accountObservable | async as accountDetails">
+            <div class="card border-success mb-4 shadow-sm">
+              <div class="card-body">
+                <div class="row g-3">
+                  <div class="col-md-6">
+                    <div class="d-flex justify-content-between align-items-center">
+                      <span class="text-muted">Account ID:</span>
+                      <span class="fw-bold text-success">{{accountDetails.accountId}}</span>
+                    </div>
+                  </div>
+                  <div class="col-md-6">
+                    <div class="d-flex justify-content-between align-items-center">
+                      <span class="text-muted">Balance:</span>
+                      <span class="fw-bold fs-5 text-success">
+                        {{accountDetails.balance | number : '1.2-2'}} $
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <h5 class="h5 mb-3 text-success fw-bold">
+              <i class="bi bi-clock-history me-2"></i>Transaction History
+            </h5>
+
+            <div class="table-responsive rounded-3 shadow-sm">
+              <table class="table table-hover align-middle">
+                <thead class="bg-success bg-opacity-10">
+                <tr>
+                  <th class="text-muted">ID</th>
+                  <th class="text-muted">Date</th>
+                  <th class="text-muted">Type</th>
+                  <th class="text-end text-muted">Amount</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr *ngFor="let op of accountDetails.accountOperationDTOS">
+                  <td class="fw-medium">{{op.id}}</td>
+                  <td>{{op.operationDate | date : 'dd-MM-yyyy:HH-mm-ss'}}</td>
+                  <td>
+                      <span class="badge rounded-pill py-2 px-3"
+                            [ngClass]="{
+                            'bg-success': op.type === 'CREDIT',
+                            'bg-danger': op.type === 'DEBIT',
+                            'bg-info': op.type === 'TRANSFER'
+                          }">
+                        {{op.type}}
+                      </span>
+                  </td>
+                  <td class="text-end fw-medium"
+                      [ngClass]="{
+                          'text-success': op.type === 'CREDIT',
+                          'text-danger': op.type === 'DEBIT'
+                        }">
+                    {{op.amount | number : '1.2-2'}} $
+                  </td>
+                </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <nav aria-label="Page navigation" class="mt-4">
+              <ul class="pagination pagination-sm justify-content-center shadow-sm">
+                <li *ngFor="let item of [].constructor(accountDetails.totalPages); let page=index"
+                    class="page-item"
+                    [ngClass]="{'active': page==currentPage}">
+                  <a class="page-link border-success text-success"
+                     href="javascript:void(0)"
+                     (click)="gotoPage(page)">
+                    {{page + 1}}
+                  </a>
+                </li>
+              </ul>
+            </nav>
+          </ng-container>
+        </div>
+      </div>
+    </div>
+
+    <!-- Operation Column -->
+    <div class="col-lg-6" *ngIf="accountObservable && authService.roles.includes('ADMIN')">
+      <div class="card border-success shadow-lg">
+        <div class="card-header bg-success bg-opacity-10 border-success py-3">
+          <h4 class="card-title mb-0 fw-bold text-success">
+            <i class="bi bi-plus-circle me-2"></i>New Operation
+          </h4>
+        </div>
+        <div class="card-body">
+          <form [formGroup]="operationFromGroup" (ngSubmit)="handleAccountOperation()">
+            <div class="mb-4">
+              <label class="form-label fw-medium text-muted">Operation Type</label>
+              <div class="d-flex gap-3 flex-wrap">
+                <div class="form-check">
+                  <input class="form-check-input border-success"
+                         type="radio"
+                         id="debit"
+                         formControlName="operationType"
+                         value="DEBIT">
+                  <label class="form-check-label text-danger fw-medium" for="debit">
+                    <i class="bi bi-arrow-down-right me-1"></i> Debit
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input border-success"
+                         type="radio"
+                         id="credit"
+                         formControlName="operationType"
+                         value="CREDIT">
+                  <label class="form-check-label text-success fw-medium" for="credit">
+                    <i class="bi bi-arrow-up-right me-1"></i> Credit
+                  </label>
+                </div>
+                <div class="form-check">
+                  <input class="form-check-input border-success"
+                         type="radio"
+                         id="transfer"
+                         formControlName="operationType"
+                         value="TRANSFER">
+                  <label class="form-check-label text-info fw-medium" for="transfer">
+                    <i class="bi bi-arrow-left-right me-1"></i> Transfer
+                  </label>
+                </div>
+              </div>
+            </div>
+
+            <div class="mb-3" *ngIf="operationFromGroup.value.operationType=='TRANSFER'">
+              <label class="form-label text-muted">Destination Account</label>
+              <div class="input-group shadow-sm">
+                <span class="input-group-text bg-success bg-opacity-10 border-success text-success">
+                  <i class="bi bi-credit-card-2-front"></i>
+                </span>
+                <input type="text"
+                       formControlName="accountDestination"
+                       class="form-control border-success"
+                       placeholder="Destination account ID">
+              </div>
+            </div>
+
+            <div class="mb-3">
+              <label class="form-label text-muted">Amount</label>
+              <div class="input-group shadow-sm">
+                <span class="input-group-text bg-success bg-opacity-10 border-success text-success">
+                  <i class="bi bi-cash"></i>
+                </span>
+                <input type="number"
+                       formControlName="amount"
+                       class="form-control border-success"
+                       placeholder="Enter amount">
+                <span class="input-group-text bg-success bg-opacity-10 border-success text-success">
+                  $
+                </span>
+              </div>
+            </div>
+
+            <div class="mb-4">
+              <label class="form-label text-muted">Description</label>
+              <div class="input-group shadow-sm">
+                <span class="input-group-text bg-success bg-opacity-10 border-success text-success">
+                  <i class="bi bi-chat-left-text"></i>
+                </span>
+                <input type="text"
+                       formControlName="description"
+                       class="form-control border-success"
+                       placeholder="Operation description">
+              </div>
+            </div>
+
+            <button class="btn btn-success w-100 py-2 shadow-sm"
+                    [disabled]="operationFromGroup.invalid">
+              <i class="bi bi-check-circle me-2"></i> Execute Operation
+            </button>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Minimal Custom CSS -->
+<style>
+  .card {
+    border-width: 2px;
+    border-radius: 1rem;
+  }
+
+  .table-hover tbody tr:hover {
+    background-color: rgba(25, 135, 84, 0.05);
+  }
+
+  .form-check-input:checked {
+    background-color: #198754;
+    border-color: #198754;
+  }
+</style>

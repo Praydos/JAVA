@@ -1,0 +1,140 @@
+<nav class="navbar navbar-expand-lg fixed-top bg-success bg-gradient border-bottom border-success border-3 py-2"
+     data-bs-theme="dark"
+     (click)="$event.stopPropagation()">
+  <div class="container-fluid">
+    <a class="navbar-brand fw-bold fs-4 d-flex align-items-center gap-2 p-2 rounded-3 bg-white bg-opacity-10"
+       routerLink="/admin/dashboard">
+      <i class="bi bi-bank fs-3"></i>
+      <span class="d-none d-md-block">Green DigitalBank</span>
+    </a>
+
+    <button class="navbar-toggler border-0 shadow-none"
+            type="button"
+            (click)="toggleDropdown('navbarContent', $event)"
+            aria-controls="navbarSupportedContent">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse"
+         [ngClass]="{'show': openDropdownId === 'navbarContent'}"
+         id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0 gap-1">
+        <!-- Nav Items -->
+        <li class="nav-item">
+          <a class="nav-link px-3 py-2 rounded-4 text-white text-opacity-75
+                   hover-text-white hover-bg-success hover-bg-opacity-25 transition-all"
+             routerLink="/admin/dashboard"
+             routerLinkActive="active bg-success bg-opacity-25 text-white">
+            <i class="bi bi-speedometer2 me-2"></i>Dashboard
+          </a>
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link px-3 py-2 rounded-4 text-white text-opacity-75
+                   hover-text-white hover-bg-success hover-bg-opacity-25 transition-all"
+             routerLink="/admin/accounts"
+             routerLinkActive="active bg-success bg-opacity-25 text-white">
+            <i class="bi bi-wallet2 me-2"></i>Accounts
+          </a>
+        </li>
+
+        <!-- Customers Dropdown -->
+        <li class="nav-item dropdown">
+          <a class="nav-link dropdown-toggle px-3 py-2 rounded-4 text-white text-opacity-75
+                    hover-text-white hover-bg-success hover-bg-opacity-25 transition-all"
+             href="#"
+             id="navbarDropdownCustomers"
+             (click)="toggleDropdown('customersDropdown', $event)"
+             routerLinkActive="active bg-success bg-opacity-25 text-white">
+            <i class="bi bi-people me-2"></i>Customers
+          </a>
+
+          <ul class="dropdown-menu shadow-lg border-success border-1 bg-success"
+              [ngClass]="{'show': openDropdownId === 'customersDropdown'}">
+            <li>
+              <a class="dropdown-item text-white hover-bg-success hover-bg-opacity-25"
+                 routerLink="/admin/customers"
+                 (click)="closeAllDropdowns()">
+                <i class="bi bi-search me-2"></i>Search customers
+              </a>
+            </li>
+            <li *ngIf="authService.roles.includes('ADMIN')">
+              <a class="dropdown-item text-white hover-bg-success hover-bg-opacity-25"
+                 routerLink="/admin/new-customer"
+                 (click)="closeAllDropdowns()">
+                <i class="bi bi-person-plus me-2"></i>New customer
+              </a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+
+      <!-- Right Section -->
+      <ul class="navbar-nav ms-auto mb-2 mb-lg-0">
+        <li class="nav-item dropdown" *ngIf="authService.isAuthenticated">
+          <a class="nav-link dropdown-toggle d-flex align-items-center gap-2 px-3 py-2
+                    rounded-4 text-white hover-bg-success hover-bg-opacity-25 transition-all"
+             href="#"
+             id="navbarDropdownProfile"
+             (click)="toggleDropdown('profileDropdown', $event)">
+            <i class="bi bi-person-circle fs-5"></i>
+            <span class="d-none d-md-inline">{{ authService.userName }}</span>
+            <i class="bi bi-chevron-down small ms-1"></i>
+          </a>
+
+          <ul class="dropdown-menu dropdown-menu-end shadow-lg border-success border-1 bg-success"
+              [ngClass]="{'show': openDropdownId === 'profileDropdown'}">
+            <li class="dropdown-header text-white text-opacity-75">Account Settings</li>
+            <li>
+              <a class="dropdown-item text-white hover-bg-success hover-bg-opacity-25"
+                 routerLink="/admin/profile">
+                <i class="bi bi-person-lines-fill me-2"></i>View Profile
+              </a>
+            </li>
+            <li>
+              <a class="dropdown-item text-white hover-bg-success hover-bg-opacity-25"
+                 routerLink="/admin/change-password">
+                <i class="bi bi-key-fill me-2"></i>Change Password
+              </a>
+            </li>
+            <li><hr class="dropdown-divider border-success border-opacity-25"></li>
+            <li>
+              <a class="dropdown-item text-danger hover-bg-danger hover-bg-opacity-10"
+                 (click)="logout(); closeAllDropdowns()">
+                <i class="bi bi-box-arrow-right me-2"></i>Logout
+              </a>
+            </li>
+          </ul>
+        </li>
+      </ul>
+
+      <!-- Login Button -->
+      <div class="d-flex align-items-center gap-2" *ngIf="!authService.isAuthenticated">
+        <a class="btn btn-success px-4 rounded-4 fw-medium shadow-sm
+                hover-bg-success hover-bg-opacity-75 transition-all"
+           routerLink="/login">
+          <i class="bi bi-box-arrow-in-right me-2"></i>Login
+        </a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<!-- Minimal CSS for transitions -->
+<style>
+  .transition-all {
+    transition: all 0.2s ease-in-out;
+  }
+
+  .hover-bg-success:hover {
+    background-color: var(--bs-success) !important;
+  }
+
+  .hover-bg-opacity-25 {
+    background-color: rgba(255, 255, 255, 0.05);
+  }
+
+  .hover-bg-opacity-25:hover {
+    background-color: rgba(255, 255, 255, 0.15) !important;
+  }
+</style>
